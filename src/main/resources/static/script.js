@@ -11,6 +11,41 @@ const loginError = document.getElementById('login-error');
 
 let editingId = null;
 
+
+function fetchOwners() {
+  fetch(API_URL, {
+    headers: { 'Authorization': `Bearer ${getToken()}` }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Failed to fetch owners');
+    return res.json();
+  })
+  .then(data => {
+    const tableBody = document.querySelector('#owners tbody');
+    tableBody.innerHTML = ''; // Clear previous rows
+
+    data.forEach(owner => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${owner.id}</td>
+        <td>${owner.name}</td>
+        <td>${owner.email}</td>
+        <td>
+          <button onclick="editOwner(${owner.id}, '${owner.name}', '${owner.email}')">Edit</button>
+          <button onclick="deleteOwner(${owner.id})">Delete</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    const tableBody = document.querySelector('#owners tbody');
+    tableBody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading owners</td></tr>`;
+  });
+}
+
+
 function getToken() {
   return localStorage.getItem('token');
 }

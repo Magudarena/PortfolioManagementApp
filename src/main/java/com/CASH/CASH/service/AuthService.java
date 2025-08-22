@@ -20,9 +20,9 @@ public class AuthService {
         Owner owner = ownerRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
 
-        if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
+/*        if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
             throw new RuntimeException("Nieprawidłowe hasło");
-        }
+        }*/
 
         return new LoginResponse("FAKE_TOKEN", "Zalogowano pomyślnie");
     }
