@@ -2,19 +2,31 @@ package com.CASH.CASH.controller;
 
 import com.CASH.CASH.model.Stock;
 import com.CASH.CASH.service.StockService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Date;
 
 @Controller
-@AllArgsConstructor
-@NoArgsConstructor
 @RequestMapping("/stocks")
 public class StockController {
+
     StockService stockService;
+
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
+    }
+
+    @PostMapping()
+    public String addStock(@ModelAttribute Stock stock){
+
+        stock.setCreateTime(new Date());
+        stock.setUpdateTime(new Date());
+        this.stockService.addStock(stock);
+
+        return "index";
+    }
 
 
     @DeleteMapping("/{id}")
@@ -22,18 +34,17 @@ public class StockController {
         this.stockService.deleteById(id);
     }
 
-    @PostMapping
-    public void addStock(@RequestBody Stock stock){
-        this.stockService.addStock(stock);
-    }
+
     @PutMapping
     public void updateStock(@RequestBody Stock stock){
         this.stockService.updateStock(stock);
     }
 
-    @GetMapping
-    public List<Stock> getStocks(){
-        return this.stockService.getStocks();
+    @GetMapping("/list")
+    public String getStocks(Model model){
+
+        model.addAttribute("stocks", this.stockService.getStocks());
+        return "stock_list";
     }
 
 }

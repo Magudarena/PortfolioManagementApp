@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock list</title>
+</head>
+<body>
+<h1>Stock list</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Short Name</th>
+        <th>Name</th>
+        <th>Company Name</th>
+        <th>Price</th>
+        <th>Market Cap</th>
+        <th>Create Time</th>
+        <th>Update Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stock : ${stocks}">
+        <td th:text="${stock.id}">ID</td>
+        <td th:text="${stock.shortName}">Short Name</td>
+        <td th:text="${stock.name}">Name</td>
+        <td th:text="${stock.companyName}">Company Name</td>
+        <td th:text="${stock.price}">Price</td>
+        <td th:text="${stock.marketCap}">Market Cap</td>
+        <td th:text="${#dates.format(stock.createTime, 'yyyy-MM-dd HH:mm')}">Create Time</td>
+        <td th:text="${#dates.format(stock.updateTime, 'yyyy-MM-dd HH:mm')}">Update Time</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
