@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="../public/style.css">
+    <style>
+        #age-warning {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h2>Register</h2>
+<form id="register-form">
+    <label for="name">First Name:</label><br>
+    <input type="text" id="name" required><br><br>
+
+    <label for="surname">Surname:</label><br>
+    <input type="text" id="surname" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <label for="birthDate">Birth Date:</label><br>
+    <input type="date" id="birthDate" required><br>
+    <small id="age-warning">You must be at least 18 years old to register.</small><br><br>
+
+    <label>
+        <input type="checkbox" id="terms" required>
+        I accept the <a href="/public/terms.html" target="_blank">stock exchange terms and conditions</a>
+    </label>
+
+
+    <button type="submit">Register</button>
+</form>
+<p><a href="/public/login.html"><button>Already have an account? Login</button></a></p>
+
+<script>
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    document.getElementById("birthDate").addEventListener("change", function () {
+        const age = calculateAge(this.value);
+        const warning = document.getElementById("age-warning");
+        warning.style.display = age < 18 ? "inline" : "none";
+    });
+
+    document.getElementById("register-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const birthDate = document.getElementById("birthDate").value;
+        const age = calculateAge(birthDate);
+        const termsAccepted = document.getElementById("terms").checked;
+
+        if (age < 18) {
+            alert("You must be at least 18 years old to register.");
+            return;
+        }
+
+        if (!termsAccepted) {
+            alert("You must accept the stock exchange terms and conditions.");
+            return;
+        }
+
+        const owner = {
+            name: document.getElementById("name").value,
+            surname: document.getElementById("surname").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            birthDate: birthDate,
+            registrationDate: new Date().toISOString().split('T')[0]
+        };
+
+        fetch("/api/owners", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(owner)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Registration successful!");
+                window.location.href = "/login.html";
+            } else {
+                alert("Registration failed.");
+            }
+        });
+    });
+</script>
+</body>
+</html>

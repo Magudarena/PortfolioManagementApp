@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
              //od tego można komentować
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/h2-console/**", "/public/**", "index.html").permitAll()
                         .anyRequest().authenticated()
                 )
 /*                .authorizeHttpRequests(auth -> auth
