@@ -15,12 +15,11 @@ public class OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public Owner createOwner(Owner owner) {
-        // Szyfrujemy hasło przed zapisaniem
-        String encodedPassword = passwordEncoder.encode(owner.getPassword());
-        owner.setPassword(encodedPassword);
+        owner.setPassword(passwordEncoder.encode(owner.getPassword()));
         return ownerRepository.save(owner);
     }
 
@@ -42,7 +41,6 @@ public class OwnerService {
                     owner.setBirthDate(updatedOwner.getBirthDate());
                     owner.setPortfolioId(updatedOwner.getPortfolioId());
 
-                    // Jeśli hasło zostało podane, aktualizujemy je po zaszyfrowaniu
                     if (updatedOwner.getPassword() != null && !updatedOwner.getPassword().isBlank()) {
                         String encodedPassword = passwordEncoder.encode(updatedOwner.getPassword());
                         owner.setPassword(encodedPassword);

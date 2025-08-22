@@ -4,6 +4,7 @@ import com.CASH.CASH.model.LoginRequest;
 import com.CASH.CASH.model.LoginResponse;
 import com.CASH.CASH.model.Owner;
 import com.CASH.CASH.repository.OwnerRepository;
+import com.CASH.CASH.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,13 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Owner owner = ownerRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-/*        if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
-            throw new RuntimeException("Nieprawidłowe hasło");
-        }*/
+        if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
 
-        return new LoginResponse("FAKE_TOKEN", "Zalogowano pomyślnie");
+        String token = JwtUtil.generateToken(owner.getEmail());
+        return new LoginResponse(token, "Login successful");
     }
 }
