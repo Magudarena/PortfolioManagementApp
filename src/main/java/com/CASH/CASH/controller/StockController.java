@@ -1,5 +1,4 @@
 package com.CASH.CASH.controller;
-
 import com.CASH.CASH.model.Stock;
 import com.CASH.CASH.service.StockService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +27,16 @@ public class StockController {
         return "index";
     }
 
+//    @GetMapping("/buy/{name}")
+//    public String buy(@PathVariable String name, Model model){
+//
+//        this.stockService.getStockData(name);
+//        model.addAttribute("stock", this.stockService.getStockData(name));
+//
+//
+//        return "stock_information";
+//    }
+
 
     @DeleteMapping("/{id}")
     public void deleteStock(@PathVariable Long id){
@@ -44,6 +53,7 @@ public class StockController {
     public String getStocks(Model model){
 
         model.addAttribute("stocks", this.stockService.getStocks());
+
         return "stock_list";
     }
 

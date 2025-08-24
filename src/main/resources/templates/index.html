@@ -27,44 +27,23 @@
 </nav>
 
 <div class="container mt-4">
-    <div class="jumbotron p-4 bg-light rounded">
-        <hr class="my-4">
-        <p>Browse your stocks, manage transactions, and track your investments.</p>
-        <a class="btn btn-primary btn-lg" href="/stocks/list" role="button">View Stocks</a>
+    <div class="jumbotron p-4 bg-light rounded shadow-sm">
+        <h3>Buy Stock</h3>
+        <p class="text-muted">Enter the stock symbol and quantity you want to purchase.</p>
 
-        <button class="btn btn-success btn-lg ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#buyStockForm" aria-expanded="false" aria-controls="buyStockForm">
-            Buy Stock
-        </button>
-
-        <div class="collapse mt-4" id="buyStockForm">
-            <div class="card card-body shadow-lg">
-                <h4 class="mb-3">Buy New Stock</h4>
-                <form th:action="@{/stocks}" method="post">
-                    <div class="mb-3">
-                        <label for="shortName" class="form-label">Stock Symbol</label>
-                        <input type="text" class="form-control" id="shortName" name="shortName" placeholder="e.g. AAPL" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Stock Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Apple Inc." required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="companyName" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" id="companyName" name="companyName" placeholder="e.g. Apple" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" step="0.01" class="form-control" id="price" name="price" placeholder="e.g. 180.50" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="marketCap" class="form-label">Market Cap</label>
-                        <input type="number" step="0.01" class="form-control" id="marketCap" name="marketCap" placeholder="e.g. 2500000000000" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Confirm Purchase</button>
-                </form>
+        <form th:action="@{/stocks}" method="post">
+            <div class="mb-3">
+                <label for="symbol" class="form-label">Stock Symbol</label>
+                <input type="text" class="form-control" id="symbol" name="symbol" placeholder="e.g. AAPL" required>
             </div>
-        </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" placeholder="e.g. 10" required>
+            </div>
+            <button type="submit" class="btn btn-success">Confirm Purchase</button>
+        </form>
     </div>
 </div>
+
 </body>
 </html>
