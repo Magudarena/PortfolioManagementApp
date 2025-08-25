@@ -22,4 +22,22 @@ public class PortfolioService {
     public List<Portfolio> getAllPortfolios() {
         return portfolioRepository.findAll();
     }
+
+    public Portfolio getById(Long id) {
+        return portfolioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Portfolio not found with id: " + id));
+    }
+
+    public Portfolio updatePortfolioName(Long id, String portfolioName) {
+        Portfolio portfolio = getById(id);
+        portfolio.setPortfolioName(portfolioName);
+        return portfolioRepository.save(portfolio);
+    }
+
+    public void deleteById(Long id) {
+        if (!portfolioRepository.existsById(id)) {
+            throw new IllegalArgumentException("Portfolio not found with id: " + id);
+        }
+        portfolioRepository.deleteById(id);
+    }
 }

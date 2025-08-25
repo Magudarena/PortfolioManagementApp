@@ -33,4 +33,25 @@ public class PortfolioController {
         model.addAttribute("portfolios", portfolioService.getAllPortfolios());
         return "portfolio-list";
     }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Portfolio p = portfolioService.getById(id);
+        model.addAttribute("portfolio", p);
+        return "portfolio-form";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updatePortfolio(@PathVariable Long id,
+                                  @RequestParam("portfolioName") String portfolioName) {
+        portfolioService.updatePortfolioName(id, portfolioName);
+        return "redirect:/portfolios/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deletePortfolio(@PathVariable Long id) {
+        portfolioService.deleteById(id);
+        return "redirect:/portfolios/list";
+    }
+
 }
