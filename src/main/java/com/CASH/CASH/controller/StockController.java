@@ -20,8 +20,6 @@ public class StockController {
     @PostMapping()
     public String addStock(@ModelAttribute Stock stock){
 
-        stock.setCreateTime(new Date());
-        stock.setUpdateTime(new Date());
         this.stockService.addStock(stock);
 
         return "index";
