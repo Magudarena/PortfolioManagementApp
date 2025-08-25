@@ -32,7 +32,7 @@ public abstract class Asset {
     Date updateTime;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     private Long id;
 
 
