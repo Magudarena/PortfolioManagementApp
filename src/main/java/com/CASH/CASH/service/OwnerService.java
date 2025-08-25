@@ -1,25 +1,20 @@
 package com.CASH.CASH.service;
 
+
 import com.CASH.CASH.model.Owner;
 import com.CASH.CASH.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     public Owner createOwner(Owner owner) {
-        owner.setPassword(passwordEncoder.encode(owner.getPassword()));
         return ownerRepository.save(owner);
     }
 
@@ -40,12 +35,6 @@ public class OwnerService {
                     owner.setRegistrationDate(updatedOwner.getRegistrationDate());
                     owner.setBirthDate(updatedOwner.getBirthDate());
                     owner.setPortfolioId(updatedOwner.getPortfolioId());
-
-                    if (updatedOwner.getPassword() != null && !updatedOwner.getPassword().isBlank()) {
-                        String encodedPassword = passwordEncoder.encode(updatedOwner.getPassword());
-                        owner.setPassword(encodedPassword);
-                    }
-
                     return ownerRepository.save(owner);
                 })
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
@@ -53,13 +42,5 @@ public class OwnerService {
 
     public void deleteOwner(Long id) {
         ownerRepository.deleteById(id);
-    }
-
-    public Optional<Owner> findByEmail(String email) {
-        return ownerRepository.findByEmail(email);
-    }
-
-    public boolean validatePassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

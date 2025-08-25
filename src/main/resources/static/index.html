@@ -16,16 +16,7 @@
 <body>
 <h1>Portfolio Management App</h1>
 
-<div id="app-section">
-    <form id="owner-form">
-        <input type="text" id="name" placeholder="First Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <button type="submit">Save</button>
-    </form>
 
-    <ul id="owner-list"></ul>
-    <button id="logout-btn">Logout</button>
-</div>
 
 <table id="owners" border="1">
     <thead>
@@ -38,6 +29,17 @@
     </thead>
     <tbody></tbody>
 </table>
+<div id="app-section">
+    <ul id="owner-list"></ul>
+    <button id="logout-btn">Logout</button>
+</div>
+
+<script>
+    document.getElementById("logout-btn").addEventListener("click", function () {
+        localStorage.removeItem("authToken");
+        window.location.href = "/public/login.html";
+    });
+</script>
 
 <script src="script.js"></script>
 </body>

@@ -37,8 +37,12 @@ public class Owner {
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
-    @Column(name = "birth_date")
+
+    @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
+
+
+
 
     public Owner() {
     }
@@ -103,4 +107,5 @@ public class Owner {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+
 }

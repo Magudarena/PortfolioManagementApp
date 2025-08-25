@@ -18,7 +18,7 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public LoginResponse login(LoginRequest request) {
-        Owner owner = ownerRepository.findByEmail(request.getEmail())
+        Owner owner = ownerRepository.findByEmailAndPassword(request.getEmail(),request.getPassword())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
