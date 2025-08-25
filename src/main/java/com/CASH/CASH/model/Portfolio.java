@@ -17,9 +17,6 @@ public class Portfolio {
     private Long id;
     private String portfolioName;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
 
     @OneToMany(mappedBy = "portfolio")
     private List<Stock> stockList;

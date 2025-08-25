@@ -1,4 +1,7 @@
 package com.CASH.CASH.repository;
 
-public class PortfolioRepository {
+import com.CASH.CASH.model.Portfolio;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 }
